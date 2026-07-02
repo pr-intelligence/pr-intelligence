@@ -128,12 +128,12 @@ PORT=3000
 ## Milestone Checklist
 
 ### Milestone 1 — Webhook Foundation
-- [ ] Create GitHub App with correct permissions
-- [ ] Set up Fastify server with TypeScript
-- [ ] Expose local server via ngrok
-- [ ] Receive webhook when PR is opened
-- [ ] Verify webhook signature (HMAC)
-- [ ] Log raw payload to console
+- [x] Create GitHub App with correct permissions
+- [x] Set up Fastify server with TypeScript
+- [x] Expose local server via ngrok
+- [x] Receive webhook when PR is opened
+- [x] Verify webhook signature (HMAC)
+- [x] Log raw payload to console
 
 ### Milestone 2 — Data Layer
 - [ ] Connect Supabase (PostgreSQL) via Prisma
