@@ -4,11 +4,11 @@
   "description": "> Reduce the time between opening a pull request and confidently merging it.",
   "main": "index.js",
   "scripts": {
-  "dev": "tsx watch src/app.ts",
-  "build": "tsc",
-  "start": "node dist/app.js",
-  "test": "vitest"
-},
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "test": "vitest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pr-intelligence/pr-intelligence.git"
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/pr-intelligence/pr-intelligence#readme",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "fastify": "^5.9.0"
   },
   "devDependencies": {

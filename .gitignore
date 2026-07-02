@@ -141,3 +141,12 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+
+# Additional files to ignore for specific IDEs or editors
+node_modules/
+dist/
+.env
+coverage/
+.DS_Store
+private-key.pem
