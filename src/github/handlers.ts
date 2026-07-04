@@ -11,18 +11,18 @@ export async function handlePullRequestOpened(
   }
 
   const installation = await upsertInstallation({
-    githubId: payload.installation.id,
+    githubId: BigInt(payload.installation.id),
     accountLogin: payload.repository.owner.login
   })
 
   const repository = await upsertRepository({
-    githubId: payload.repository.id,
+    githubId: BigInt(payload.repository.id),
     installationId: installation.id,
     fullName: payload.repository.full_name
   })
 
   await upsertPullRequest({
-    githubId: payload.pull_request.id,
+    githubId: BigInt(payload.pull_request.id),
     repoId: repository.id,
     number: payload.pull_request.number,
     title: payload.pull_request.title,

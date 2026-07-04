@@ -1,7 +1,7 @@
 import { prisma } from './client.js'
 
 export async function upsertInstallation(data: {
-  githubId: number
+  githubId: bigint
   accountLogin: string
 }) {
   return prisma.installation.upsert({
@@ -15,7 +15,7 @@ export async function upsertInstallation(data: {
 }
 
 export async function upsertRepository(data: {
-  githubId: number
+  githubId: bigint
   installationId: number
   fullName: string
 }) {
@@ -31,7 +31,7 @@ export async function upsertRepository(data: {
 }
 
 export async function upsertPullRequest(data: {
-  githubId: number
+  githubId: bigint
   repoId: number
   number: number
   title: string

@@ -39,9 +39,15 @@ export async function registerWebhookRoute(app: FastifyInstance) {
 
         return reply.status(HTTP_STATUS.OK).send({ ok: true })
       } catch (err) {
-        app.log.error(err, 'Webhook processing failed')
-        return reply.status(HTTP_STATUS.UNAUTHORIZED).send({ error: 'Invalid webhook signature' })
-      }
+  console.error("=== WEBHOOK ERROR ===");
+  console.error(err);
+
+  app.log.error(err, "Webhook processing failed");
+
+  return reply.status(401).send({
+    error: "Invalid webhook signature",
+  });
+}
     }
   )
 }

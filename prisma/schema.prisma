@@ -8,7 +8,8 @@ datasource db {
 
 model Installation {
   id            Int          @id @default(autoincrement())
-  githubId      Int          @unique
+  // GitHub IDs exceed PostgreSQL INT range, so we store them as BIGINT.
+  githubId      BigInt       @unique
   accountLogin  String
   createdAt     DateTime     @default(now())
   repositories  Repository[]
@@ -18,7 +19,8 @@ model Installation {
 
 model Repository {
   id             Int           @id @default(autoincrement())
-  githubId       Int           @unique
+  // GitHub IDs exceed PostgreSQL INT range, so we store them as BIGINT.
+  githubId       BigInt        @unique
   installationId Int
   fullName       String
   createdAt      DateTime      @default(now())
@@ -30,7 +32,8 @@ model Repository {
 
 model PullRequest {
   id           Int        @id @default(autoincrement())
-  githubId     Int        @unique
+  // GitHub IDs exceed PostgreSQL INT range, so we store them as BIGINT.
+  githubId     BigInt     @unique
   repoId       Int
   number       Int
   title        String
