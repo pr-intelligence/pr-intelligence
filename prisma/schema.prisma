@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Installation {
+  id            Int          @id @default(autoincrement())
+  githubId      Int          @unique
+  accountLogin  String
+  createdAt     DateTime     @default(now())
+  repositories  Repository[]
+
+  @@map("installations")
+}
+
+model Repository {
+  id             Int           @id @default(autoincrement())
+  githubId       Int           @unique
+  installationId Int
+  fullName       String
+  createdAt      DateTime      @default(now())
+  installation   Installation  @relation(fields: [installationId], references: [id])
+  pullRequests   PullRequest[]
+
+  @@map("repositories")
+}
+
+model PullRequest {
+  id           Int        @id @default(autoincrement())
+  githubId     Int        @unique
+  repoId       Int
+  number       Int
+  title        String
+  author       String
+  url          String
+  state        String
+  createdAt    DateTime   @default(now())
+  repository   Repository @relation(fields: [repoId], references: [id])
+
+  @@map("pull_requests")
+}
