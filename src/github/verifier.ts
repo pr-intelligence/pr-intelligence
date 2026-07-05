@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { Webhooks } from '@octokit/webhooks'
 
 export const webhooks = new Webhooks({

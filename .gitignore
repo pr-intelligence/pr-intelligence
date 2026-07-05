@@ -150,3 +150,5 @@ dist/
 coverage/
 .DS_Store
 private-key.pem
+
+/src/generated/prisma
