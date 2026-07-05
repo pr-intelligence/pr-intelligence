@@ -136,10 +136,10 @@ PORT=3000
 - [x] Log raw payload to console
 
 ### Milestone 2 — Data Layer
-- [ ] Connect Supabase (PostgreSQL) via Prisma
-- [ ] Define schema: installations, repositories, pull_requests
-- [ ] Parse webhook payload
-- [ ] Store PR metadata in database
+- [x] Connect Supabase (PostgreSQL) via Prisma
+- [x] Define schema: installations, repositories, pull_requests
+- [x] Parse webhook payload
+- [x] Store PR metadata in database
 
 ### Milestone 3 — Diff Retrieval
 - [ ] Authenticate GitHub API calls using App credentials
