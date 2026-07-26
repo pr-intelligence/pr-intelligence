@@ -2,6 +2,8 @@ import type { EmitterWebhookEvent } from '@octokit/webhooks'
 import { upsertInstallation, upsertRepository, upsertPullRequest } from '../database/repository.js'
 import { buildAIReviewContext } from '../reviews/contextBuilder.js'
 import { getAIProvider } from '../ai/index.js'
+import { formatReviewAsMarkdown } from '../reviews/formatter.js'
+import { postReviewComment } from './commenter.js'
 
 export async function handlePullRequestOpened(
   event: EmitterWebhookEvent<'pull_request.opened'>
@@ -64,8 +66,20 @@ export async function handlePullRequestOpened(
       )
     })
     console.log('=================\n')
+
+    const markdown = formatReviewAsMarkdown(review)
+
+    const commentUrl = await postReviewComment({
+      installationId: payload.installation.id,
+      owner: payload.repository.owner.login,
+      repo: payload.repository.name,
+      pullNumber: payload.pull_request.number,
+      body: markdown
+    })
+
+    console.log(`✓ Review posted to PR #${payload.pull_request.number}: ${commentUrl}`)
   } catch (error) {
-    console.error('AI review failed:', error)
+    console.error('Review pipeline failed:', error)
     throw error
   }
 }
