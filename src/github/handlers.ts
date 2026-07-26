@@ -1,6 +1,7 @@
 import type { EmitterWebhookEvent } from '@octokit/webhooks'
 import { upsertInstallation, upsertRepository, upsertPullRequest } from '../database/repository.js'
 import { buildAIReviewContext } from '../reviews/contextBuilder.js'
+import { getAIProvider } from '../ai/index.js'
 
 export async function handlePullRequestOpened(
   event: EmitterWebhookEvent<'pull_request.opened'>
@@ -32,6 +33,8 @@ export async function handlePullRequestOpened(
     state: payload.pull_request.state
   })
 
+  console.log(`✓ PR #${payload.pull_request.number} saved to database`)
+
   const context = await buildAIReviewContext({
     installationId: payload.installation.id,
     owner: payload.repository.owner.login,
@@ -45,12 +48,24 @@ export async function handlePullRequestOpened(
     }
   })
 
-  console.log(`\n✓ PR #${context.pullRequest.number} saved to database`)
-  console.log(`✓ Authenticated as installation ${payload.installation.id}`)
   console.log(`✓ Fetched ${context.files.length} changed files`)
-  console.log('\nFiles changed:')
-  context.files.forEach((file) => {
-    console.log(`  - ${file.filename} (${file.status}, +${file.additions} -${file.deletions})`)
-  })
-  console.log('\nContext object ready for AI review.\n')
+  console.log('\nCalling AI for review...')
+
+  try {
+    const provider = getAIProvider()
+    const review = await provider.review(context)
+
+    console.log('\n=== AI REVIEW ===')
+    console.log(`Summary: ${review.summary}`)
+    console.log(`Findings: ${review.findings.length}`)
+    review.findings.forEach((finding) => {
+      console.log(
+        `  [${finding.severity.toUpperCase()}] ${finding.filename}: ${finding.description}`
+      )
+    })
+    console.log('=================\n')
+  } catch (error) {
+    console.error('AI review failed:', error)
+    throw error
+  }
 }
