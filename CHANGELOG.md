@@ -17,3 +17,14 @@
 - Fastify server with TypeScript
 - Webhook signature verification (HMAC)
 - Pull request opened event handling
+
+## v0.3.0 - 2026-07-26
+
+### Added
+- GitHub App authentication using installation tokens
+- PR diff retrieval from GitHub API
+- AI review context builder
+- AI provider abstraction layer (Mock, Ollama, OpenAI, Claude)
+- Markdown formatter for review output
+- Automatic AI review posted as GitHub PR comment
+- Local inference support via Ollama (qwen2.5-coder:7b)
