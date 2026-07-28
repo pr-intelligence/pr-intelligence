@@ -142,20 +142,20 @@ PORT=3000
 - [x] Store PR metadata in database
 
 ### Milestone 3 — Diff Retrieval
-- [ ] Authenticate GitHub API calls using App credentials
-- [ ] Fetch PR diff from GitHub REST API
-- [ ] Parse diff into per-file, per-function structure
-- [ ] Log clean internal diff representation
+- [x] Authenticate GitHub API calls using App credentials
+- [x] Fetch PR diff from GitHub REST API
+- [x] Parse diff into per-file, per-function structure
+- [x] Log clean internal diff representation
 
 ### Milestone 4 — Diff Understanding
-- [ ] Extract changed function bodies from diff
-- [ ] Investigate heuristic approaches for probable downstream impact
-- [ ] Produce a structured internal representation ready for AI
+- [x] Extract changed function bodies from diff
+- [x] Investigate heuristic approaches for probable downstream impact
+- [x] Produce a structured internal representation ready for AI
 
 ### Milestone 5 — First AI Comment
-- [ ] Connect Claude API behind abstraction layer
-- [ ] Send diff + context → receive structured review
-- [ ] Post one comment back to the PR via GitHub API
+- [x] Connect Claude API behind abstraction layer
+- [x] Send diff + context → receive structured review
+- [x] Post one comment back to the PR via GitHub API
 - [ ] Collect feedback from developers to determine whether the generated review is genuinely useful
 
 ### Milestone 6 — Real User Testing
