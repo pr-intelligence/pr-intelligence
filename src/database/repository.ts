@@ -1,3 +1,5 @@
+import type { Prisma } from '@prisma/client'
+import type { ReviewFinding } from '../reviews/types.js'
 import { prisma } from './client.js'
 
 export async function upsertInstallation(data: {
@@ -54,5 +56,31 @@ export async function upsertPullRequest(data: {
       url: data.url,
       state: data.state
     }
+  })
+}
+
+export async function saveReview(data: {
+  pullRequestId: number
+  summary: string
+  findings: Prisma.InputJsonValue
+  provider: string
+}) {
+  return prisma.review.create({
+    data: {
+      pullRequestId: data.pullRequestId,
+      summary: data.summary,
+      findings: data.findings,
+      provider: data.provider
+    }
+  })
+}
+
+export async function updateReviewCommentUrl(
+  reviewId: number,
+  commentUrl: string
+) {
+  return prisma.review.update({
+    where: { id: reviewId },
+    data: { commentUrl }
   })
 }

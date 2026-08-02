@@ -5,11 +5,15 @@ import { OpenAIProvider } from './openai.js'
 import { OllamaProvider } from './ollama.js'
 
 let provider: AIProvider | null = null
+let providerName: string = 'mock'
 
 export function getAIProvider(): AIProvider {
   if (provider) return provider
 
-  switch (process.env.AI_PROVIDER) {
+  const name = process.env.AI_PROVIDER ?? 'mock'
+  providerName = name
+
+  switch (name) {
     case 'mock':
       provider = new MockAIProvider()
       break
@@ -24,8 +28,13 @@ export function getAIProvider(): AIProvider {
       break
     default:
       provider = new MockAIProvider()
+      providerName = 'mock'
       break
   }
 
   return provider
+}
+
+export function getProviderName(): string {
+  return providerName
 }
