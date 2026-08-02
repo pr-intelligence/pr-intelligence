@@ -43,3 +43,20 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 | Small | 1–3 | Under 15 seconds |
 | Medium | 10–15 | Under 45 seconds |
 | Large | 30+ | Measured and documented |
+
+## Evaluation Results
+
+### PR #14 — SQL Injection
+**Seeded issues:** 3 HIGH
+**Detected:** 3/3
+**High-risk recall:** 100%
+**Valid actionable findings:** 3
+**Extra findings:** 1 INFO observation
+**Severity accuracy:** 100%
+
+**Problems observed:**
+- Repeated same root issue three times instead of consolidating
+- Claimed queries were exploitable when diff only constructs strings, does not execute them
+- INFO finding partially corrected the earlier overstatement
+
+**Verdict:** PASS for detection and severity. PARTIAL for technical accuracy and noise control.
