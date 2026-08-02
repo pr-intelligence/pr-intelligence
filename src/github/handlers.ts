@@ -1,7 +1,7 @@
 import type { EmitterWebhookEvent } from '@octokit/webhooks'
-import { upsertInstallation, upsertRepository, upsertPullRequest } from '../database/repository.js'
+import { upsertInstallation, upsertRepository, upsertPullRequest, saveReview, updateReviewCommentUrl } from '../database/repository.js'
 import { buildAIReviewContext } from '../reviews/contextBuilder.js'
-import { getAIProvider } from '../ai/index.js'
+import { getAIProvider, getProviderName } from '../ai/index.js'
 import { formatReviewAsMarkdown } from '../reviews/formatter.js'
 import { postReviewComment } from './commenter.js'
 
@@ -25,7 +25,7 @@ export async function handlePullRequestOpened(
     fullName: payload.repository.full_name
   })
 
-  await upsertPullRequest({
+  const pullRequest = await upsertPullRequest({
     githubId: BigInt(payload.pull_request.id),
     repoId: repository.id,
     number: payload.pull_request.number,
@@ -67,6 +67,15 @@ export async function handlePullRequestOpened(
     })
     console.log('=================\n')
 
+    const savedReview = await saveReview({
+      pullRequestId: pullRequest.id,
+      summary: review.summary,
+      findings: review.findings,
+      provider: getProviderName()
+    })
+
+    console.log(`✓ Review saved to database (id: ${savedReview.id})`)
+
     const markdown = formatReviewAsMarkdown(review)
 
     const commentUrl = await postReviewComment({
@@ -76,6 +85,8 @@ export async function handlePullRequestOpened(
       pullNumber: payload.pull_request.number,
       body: markdown
     })
+
+    await updateReviewCommentUrl(savedReview.id, commentUrl)
 
     console.log(`✓ Review posted to PR #${payload.pull_request.number}: ${commentUrl}`)
   } catch (error) {

@@ -18,7 +18,7 @@
 - Webhook signature verification (HMAC)
 - Pull request opened event handling
 
-## v0.3.0 - 2026-07-26
+## v0.3.0 - 2026-07-29
 
 ### Added
 - GitHub App authentication using installation tokens
