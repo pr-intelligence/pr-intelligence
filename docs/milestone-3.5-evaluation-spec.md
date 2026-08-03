@@ -60,3 +60,18 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 - INFO finding partially corrected the earlier overstatement
 
 **Verdict:** PASS for detection and severity. PARTIAL for technical accuracy and noise control.
+
+### PR #15 — Missing Await
+**Seeded issues:** fetchUser (CRITICAL — missing await on fetch + json), saveOrder (HIGH — missing await, status check on Promise)
+**Clean function:** deleteUser (has correct await)
+**Detected:** async bug pattern found ✅
+**False positives:** 1 — deleteUser incorrectly accused of missing await ❌
+**Severity accuracy:** HIGH reported instead of CRITICAL for fetchUser
+**Technical accuracy:** 5/10 — pattern matched instead of reading actual code
+
+**Problems observed:**
+- Accused deleteUser of missing await when it correctly has await
+- Severity under-calibrated — fetchUser returns a Promise silently, that is CRITICAL not HIGH
+- Consolidation approach was good but applied incorrectly by including clean function
+
+**Verdict:** PARTIAL — detection yes, precision no.
