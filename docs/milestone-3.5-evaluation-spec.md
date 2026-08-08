@@ -75,3 +75,22 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 - Consolidation approach was good but applied incorrectly by including clean function
 
 **Verdict:** PARTIAL — detection yes, precision no.
+
+### PR #16 — Unhandled Rejection
+**Seeded issues:** notifyUser (HIGH — discarded Promise), sendBulkEmails (HIGH — async forEach)
+**Clean controls:** sendEmail, retryNotification
+**Detected:** 2/2 seeded issue areas
+**High-risk recall:** 100%
+**Severity accuracy:** 1/2 — notifyUser reported MEDIUM instead of HIGH
+**False/low-value findings:** 2 — type-annotation claim and retry error-message suggestion
+**Technical accuracy:** 4/10
+
+**Problems observed:**
+- Correctly detected the async-forEach bug in sendBulkEmails as HIGH
+- Identified notifyUser as problematic, but incorrectly described it as a synchronous call
+- Failed to explain that notifyUser discards the returned Promise and cannot propagate failures
+- Under-severitized notifyUser as MEDIUM instead of HIGH
+- Claimed type annotations were needed even though the file already has explicit types
+- Flagged retryNotification with a subjective error-message suggestion despite it being a clean control
+
+**Verdict:** PARTIAL — full seeded-issue recall, but poor technical precision, severity calibration, and noise control.
