@@ -109,3 +109,21 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 - No concrete recommendation (use environment variables, secret manager, rotate exposed values)
 
 **Verdict:** PASS for detection and noise control. PARTIAL for technical accuracy and actionability.
+
+### PR #19 — Weak Input Validation
+**Seeded issues:** validateAge (MEDIUM), validatePassword (MEDIUM), validatePhoneNumber (MEDIUM), validateUrl (MEDIUM)
+**Clean controls:** sanitizeInput, normalizeUsername
+**Detected:** 1/4 seeded issues (validatePhoneNumber only)
+**Issue recall:** 25%
+**High-risk recall:** N/A (no HIGH/CRITICAL issues seeded)
+**Severity accuracy:** 0/1 — validatePhoneNumber reported HIGH instead of MEDIUM
+**False positives:** 1 — sanitizeInput and normalizeUsername flagged for not preventing SQL injection/XSS
+**Technical accuracy:** 3/10
+
+**Problems observed:**
+- Missed validateAge, validatePassword, validateUrl entirely
+- Flagged clean controls as security risks with incorrect reasoning
+- Claimed trim() should prevent SQL injection — trim is not a sanitization function
+- Over-severitized phone validation to HIGH instead of MEDIUM
+
+**Verdict:** FAIL — 25% issue recall, false positives on clean controls, misleading technical claims.
