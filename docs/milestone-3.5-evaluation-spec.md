@@ -94,3 +94,18 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 - Flagged retryNotification with a subjective error-message suggestion despite it being a clean control
 
 **Verdict:** PARTIAL — full seeded-issue recall, but poor technical precision, severity calibration, and noise control.
+
+### PR #18 — Hardcoded Credentials (clean fixture, replaces PR #17)
+**Seeded issues:** 5 hardcoded secrets (DATABASE_CONFIG.password, API_KEYS.payments, API_KEYS.email, JWT_CONFIG.secret, ADMIN_CREDENTIALS.password) — all HIGH
+**Detected:** 1 consolidated HIGH finding covering all secrets
+**High-risk recall:** 100%
+**Severity accuracy:** HIGH correct ✅
+**False positives:** 0 ✅
+**Technical accuracy:** 5/10
+
+**Problems observed:**
+- Summary stated secrets are "necessary for running with proper environment variables" — contradicts the finding
+- Consolidated finding is vague — no specific impact per secret type, no mention of JWT token forgery risk
+- No concrete recommendation (use environment variables, secret manager, rotate exposed values)
+
+**Verdict:** PASS for detection and noise control. PARTIAL for technical accuracy and actionability.
