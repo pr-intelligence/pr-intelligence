@@ -127,3 +127,22 @@ Make PR Intelligence produce reviews that developers can trust, not merely revie
 - Over-severitized phone validation to HIGH instead of MEDIUM
 
 **Verdict:** FAIL — 25% issue recall, false positives on clean controls, misleading technical claims.
+
+### PR #20 — Cross-file Issue (unit mismatch)
+**Seeded issue:** getSessionExpiry adds seconds TTL to milliseconds timestamp — sessions expire in ~3.6 seconds instead of 1 hour (MEDIUM)
+**Clean controls:** getRefreshExpiry (correct * 1000 conversion), isSessionExpired
+**Detected:** 0/1
+**Issue recall:** 0%
+**High-risk recall:** N/A
+**Severity accuracy:** N/A
+**False positives:** 2 — hardcoded constants (style), missing input validation (noise)
+**Technical accuracy:** 0/10
+
+**Problems observed:**
+- Unit mismatch between milliseconds and seconds completely missed
+- No cross-file reasoning demonstrated — did not connect sessionConfig contract to sessionService usage
+- Flagged hardcoded time constants as a problem — LOW style opinion
+- Flagged missing input validation — unrelated INFO noise
+- getRefreshExpiry clean control correctly ignored ✅
+
+**Verdict:** FAIL — 0% recall on seeded bug. Qwen cannot perform cross-file contract reasoning at this level.
